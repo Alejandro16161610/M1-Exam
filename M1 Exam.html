@@ -35,7 +35,7 @@ var config = {
 var player;
 var stars;
 var bombs;
-var psc = (5 + 1 * 5);
+var psc = 0.1 ;
 var platforms;
 var starcollect = 0;
 var cursors;
@@ -121,6 +121,7 @@ function create ()
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scText = this.add.text(16, 16, 'starcollect: 0', { fontSize: '32px', fill: '#000' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
@@ -132,6 +133,11 @@ function create ()
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
+
+sizeX = 1;
+sizeY = 1;
+sizechanged = 0.1;
+starcount = 0;
 
 function update ()
 {
@@ -178,15 +184,15 @@ function collectStar (player, star)
         color.push('0xff0000','0xff6600','0xffff00','0x00ff00','0x0000ff','0x9900cc')
     }
 
-    if (starcollect <= 3)
-    {
-    starcollect += 1;
+    if(starcount < 4){
+        starcount += 1;   
+    }else{
+        sizeX += sizechanged;
+        sizeY += sizechanged;
+        starcount = 0;
+        player.setScale(sizeX,sizeY);
     }
-    else
-    {
-    player.scale += psc;
-    starcollect = 0;
-    }
+   
 
     scoreText.setText('Score: ' + score);
 
